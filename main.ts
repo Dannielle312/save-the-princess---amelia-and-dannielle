@@ -2,6 +2,10 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, l
     mySprite.setPosition(8, 19)
     tiles.setCurrentTilemap(tilemap`level3`)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
+    mySprite.setPosition(60, 100)
+    tiles.setCurrentTilemap(tilemap`level2`)
+})
 let mySprite: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
 mySprite = sprites.create(img`
@@ -22,6 +26,6 @@ mySprite = sprites.create(img`
     . . . f f f f f f . . . . 
     . . . f f . . f f . . . . 
     `, SpriteKind.Player)
-mySprite.setPosition(76, 76)
+mySprite.setPosition(17, 100)
 controller.moveSprite(mySprite, 100, 100)
 scene.cameraFollowSprite(mySprite)
