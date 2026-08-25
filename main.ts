@@ -1,8 +1,10 @@
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
+    mySprite.setPosition(8, 19)
     tiles.setCurrentTilemap(tilemap`level3`)
 })
+let mySprite: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
-let mySprite = sprites.create(img`
+mySprite = sprites.create(img`
     . . . . f f f f . . . . . 
     . . f 5 f 5 f 5 f f . . . 
     . f f 4 5 5 5 5 f f f . . 
