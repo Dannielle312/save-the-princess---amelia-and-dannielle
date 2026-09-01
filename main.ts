@@ -6,6 +6,17 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
     mySprite.setPosition(60, 100)
     tiles.setCurrentTilemap(tilemap`level2`)
 })
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    mySprite.vy = -120
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite, location) {
+    mySprite.setPosition(70, 100)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
+    mySprite.setPosition(30, 105)
+    tiles.setCurrentTilemap(tilemap`level4`)
+    mySprite.ay = 300
+})
 let mySprite: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
 mySprite = sprites.create(img`
