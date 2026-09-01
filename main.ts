@@ -3,6 +3,19 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, l
     tiles.setCurrentTilemap(tilemap`level3`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
+    mySprite.setPosition(15, 20)
+    tiles.setCurrentTilemap(tilemap`level5`)
+    mySprite.ay = 300
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    mySprite.vy = -120
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
+    mySprite.setPosition(20, 97)
+    tiles.setCurrentTilemap(tilemap`level4`)
+    mySprite.ay = 300
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile31`, function (sprite, location) {
     mySprite.setPosition(60, 100)
     tiles.setCurrentTilemap(tilemap`level2`)
 })
