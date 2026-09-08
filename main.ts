@@ -7,14 +7,25 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
     tiles.setCurrentTilemap(tilemap`level2`)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.vy = -120
+    if (isFlying == false) {
+        isFlying = true
+        mySprite.ay = 0
+        mySprite.vy = -90
+        pause(500)
+        mySprite.ay = 500
+        isFlying = false
+        pause(500)
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
     mySprite.setPosition(9, 13)
     tiles.setCurrentTilemap(tilemap`level5`)
     mySprite.ay = 300
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`baseTransparency16`, function (sprite, location) {
+function jumpFunction () {
+	
+}
+scene.onOverlapTile(SpriteKind.Player, assets.tile`floorDark4`, function (sprite, location) {
     mySprite.setPosition(180, 100)
     tiles.setCurrentTilemap(tilemap`level0`)
 })
@@ -23,7 +34,7 @@ scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
 })
 function spawnEnemies () {
     let level = 0
-    if (level == 4) {
+    if (level == 1) {
         for (let index = 0; index < 10; index++) {
             mySprite2 = sprites.create(img`
                 ........................
@@ -53,15 +64,12 @@ function spawnEnemies () {
                 `, SpriteKind.Enemy)
             tiles.placeOnRandomTile(mySprite2, assets.tile`floorDarkDiamond`)
             mySprite2.vx = 50
-            mySprite2.setBounceOnWall(true)
         }
-    } else {
-    	
     }
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
-    mySprite.setPosition(15, 105)
     tiles.setCurrentTilemap(tilemap`level4`)
+    mySprite.setPosition(15, 105)
     mySprite.ay = 300
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, location) {
@@ -78,6 +86,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, 
     tiles.setCurrentTilemap(tilemap`level0`)
 })
 let mySprite2: Sprite = null
+let isFlying = false
 let mySprite: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
 mySprite = sprites.create(img`
