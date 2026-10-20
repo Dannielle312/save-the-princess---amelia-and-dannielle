@@ -1,20 +1,22 @@
+namespace SpriteKind {
+    export const sharkieeee = SpriteKind.create()
+}
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
-    mySprite.setPosition(8, 19)
-    tiles.setCurrentTilemap(tilemap`level3`)
+    mySprite.setPosition(15, 10)
+    tiles.setCurrentTilemap(tilemap`level8`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     mySprite.setPosition(60, 100)
     tiles.setCurrentTilemap(tilemap`level2`)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
+    mySprite.setPosition(0, 81)
+    tiles.setCurrentTilemap(tilemap`level9`)
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (isFlying == false) {
-        isFlying = true
-        mySprite.ay = -100
-        mySprite.vy = -40
-        pause(500)
-        mySprite.ay = 500
-        isFlying = false
-        pause(500)
+    if (jumpCount < 2) {
+        mySprite.setVelocity(50, -150)
+        jumpCount += 1
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
@@ -22,12 +24,63 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
     tiles.setCurrentTilemap(tilemap`level5`)
     mySprite.ay = 300
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile42`, function (sprite, location) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    mySprite = sprites.create(img`
+        . . . . f f f f . . . . . 
+        . . f 5 f 5 f 5 f f . . . 
+        . f f 4 5 5 5 5 f f f . . 
+        f f f 5 4 5 5 5 f f f c . 
+        f f f c f f f f f f f c . 
+        c c c f f f e e f f c c . 
+        f f f f f e e f f c c f . 
+        f f f b f e e f b f f f . 
+        . f 4 1 f 4 4 f 1 4 f . . 
+        . f e 4 4 4 4 4 4 e f . . 
+        . f f f e e e e f f f . . 
+        f e f b 7 7 7 7 b f e f . 
+        e 4 f 7 7 7 7 7 7 f 4 e . 
+        e e f 6 6 6 6 6 6 f e e . 
+        . . . f f f f f f . . . . 
+        . . . f f . . f f . . . . 
+        `, SpriteKind.Player)
+    controller.moveSprite(mySprite)
+    scene.cameraFollowSprite(mySprite)
+    mySprite.setPosition(160, 100)
+    tiles.setCurrentTilemap(tilemap`level0`)
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`floorDark4`, function (sprite, location) {
     mySprite.setPosition(180, 100)
     tiles.setCurrentTilemap(tilemap`level0`)
 })
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    mySprite4 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . c c c c . . . . . . . . 
+        . . . c d d d d c c . . . . . . 
+        . . . c d c c c c c c . . . . . 
+        . . . c c d 4 4 4 4 c c . . . . 
+        c c . c 1 4 4 4 4 4 d 4 c . . . 
+        c 4 c 1 d 4 4 4 4 1 4 4 4 c . . 
+        c 4 c 1 4 4 4 4 4 1 4 4 4 4 c . 
+        f 4 4 1 4 4 4 4 4 1 4 4 4 4 4 f 
+        f 4 f 1 4 4 4 c c 1 4 f 4 4 4 f 
+        f 4 f d 4 4 f 4 4 1 3 4 4 4 4 f 
+        f f f f d 4 f 4 c 1 4 4 4 4 f . 
+        . . c f c 4 f f 4 4 d 4 f f . . 
+        . . c b d c 4 4 4 4 f f . . . . 
+        . . c d d d f f f f . . . . . . 
+        . . . c c c . . . . . . . . . . 
+        `, SpriteKind.Player)
+    controller.moveSprite(mySprite4)
+    scene.cameraFollowSprite(mySprite4)
+    spawnEnemies2()
+})
 scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
-    sprite.vx = sprite.vx * -1
+    sprite.vy = sprite.vy ** -1
+    sprite.vy = sprite.vx ** -1
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
@@ -35,7 +88,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, ot
 })
 function spawnEnemies () {
     for (let index = 0; index < 10; index++) {
-        mySprite2 = sprites.create(img`
+        my_little_nemesis = sprites.create(img`
             ........................
             ........................
             ........................
@@ -61,20 +114,73 @@ function spawnEnemies () {
             ........................
             ........................
             `, SpriteKind.Enemy)
-        tiles.placeOnRandomTile(mySprite2, assets.tile`floorDarkDiamond`)
-        mySprite2.vx = 50
+        tiles.placeOnRandomTile(my_little_nemesis, assets.tile`floorDarkDiamond`)
+        my_little_nemesis.vx = 50
+        my_little_nemesis.vy = 50
+        my_little_nemesis.setBounceOnWall(true)
     }
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
     tiles.setCurrentTilemap(tilemap`level4`)
-    mySprite.setPosition(15, 105)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
+    mySprite.setPosition(6, 4)
     mySprite.ay = 300
     spawnLava()
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, location) {
     mySprite.setPosition(9, 16)
     tiles.setCurrentTilemap(tilemap`level7`)
+    mySprite5 = sprites.create(img`
+        . . . . . . . e c 7 . . . . . . 
+        . . . . e e e c 7 7 e e . . . . 
+        . . c e e e e c 7 e 2 2 e e . . 
+        . c e e e e e c 6 e e 2 2 2 e . 
+        . c e e e 2 e c c 2 4 5 4 2 e . 
+        c e e e 2 2 2 2 2 2 4 5 5 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 4 4 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 4 2 e 
+        . e e e 2 2 2 2 2 2 2 2 2 4 e . 
+        . 2 e e 2 2 2 2 2 2 2 2 4 2 e . 
+        . . 2 e e 2 2 2 2 2 4 4 2 e . . 
+        . . . 2 2 e e 4 4 4 2 e e . . . 
+        . . . . . 2 2 e e e e . . . . . 
+        `, SpriteKind.Food)
+    mySprite5.setPosition(11, 102)
     spawnEnemies()
+})
+function spawnEnemies2 () {
+    for (let index = 0; index < 15; index++) {
+        sharkie_chompers = sprites.create(img`
+            .................ccfff..............
+            ................cddbbf..............
+            ...............cddbbf...............
+            ..............fccbbcf............ccc
+            ........ffffffccccccff.........ccbbc
+            ......ffbbbbbbbbbbbbbcfff.....cdbbc.
+            ....ffbbbbbbbbbcbcbbbbcccff..cddbbf.
+            ....fbcbbbbbffbbcbcbbbcccccfffdbbf..
+            ....fbbb1111ff1bcbcbbbcccccccbbbcf..
+            .....fb11111111bbbbbbcccccccccbccf..
+            ......fccc33cc11bbbbccccccccfffbbcf.
+            .......fc131c111bbbcccccbdbc...fbbf.
+            ........f33c111cbbbfdddddcc.....fbbf
+            .........ff1111fbdbbfddcc........fff
+            ...........cccccfbdbbfc.............
+            .................fffff..............
+            `, SpriteKind.sharkieeee)
+        tiles.placeOnRandomTile(sharkie_chompers, assets.tile`myTile`)
+        sharkie_chompers.vx = 50
+        sharkie_chompers.setBounceOnWall(true)
+    }
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    sprites.destroy(mySprite5)
+    POWERUP = true
+    pause(10000)
+    POWERUP = false
 })
 function spawnLava () {
     mySprite3 = sprites.create(img`
@@ -104,21 +210,33 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile31`, function (sprite, 
     info.changeLifeBy(-1)
     mySprite.setPosition(15, 105)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.sharkieeee, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.disintegrate, 100)
+    info.changeLifeBy(-1)
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile30`, function (sprite, location) {
     mySprite.setPosition(120, 100)
     tiles.setCurrentTilemap(tilemap`level0`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, location) {
-    mySprite.setPosition(160, 100)
-    tiles.setCurrentTilemap(tilemap`level0`)
+    mySprite.setPosition(110, 100)
+    tiles.setCurrentTilemap(tilemap`level2`)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    otherSprite.destroy(effects.disintegrate, 100)
-    music.wawawawaa.play()
-    info.changeLifeBy(-1)
+    if (POWERUP == true) {
+        my_little_nemesis.destroy(effects.disintegrate, 100)
+        info.changeScoreBy(1)
+    } else {
+        info.changeLifeBy(-1)
+    }
 })
-let mySprite2: Sprite = null
-let isFlying = false
+let flashhh = false
+let POWERUP = false
+let sharkie_chompers: Sprite = null
+let mySprite5: Sprite = null
+let my_little_nemesis: Sprite = null
+let mySprite4: Sprite = null
+let jumpCount = 0
 let mySprite3: Sprite = null
 let mySprite: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
@@ -162,6 +280,131 @@ mySprite3 = sprites.create(img`
     2 2 5 4 2 2 5 2 4 2 2 4 4 5 2 5 
     `, SpriteKind.Projectile)
 mySprite3.setPosition(600, 120)
+let mySprite2 = sprites.create(img`
+    ........................
+    ........................
+    ........................
+    ........................
+    ..........1111..........
+    ........11222211........
+    .......1622222261.......
+    .......1222222221.......
+    ......182222222281......
+    ......182222222281......
+    ......188822228881......
+    ......168618816861......
+    ......1e8e1221e8e1......
+    .....111122222261.......
+    ....18222886268111......
+    ....1262686161e222e1....
+    ....1616161111262621....
+    .........11111116161....
+    ..........111111........
+    ...........111..........
+    ........................
+    ........................
+    ........................
+    ........................
+    `, SpriteKind.Enemy)
+mySprite2.setPosition(100000, 120)
+game.onUpdate(function () {
+    if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
+        jumpCount = 0
+    }
+})
+game.onUpdateInterval(500, function () {
+    if (POWERUP == true) {
+        flashhh = !(flashhh)
+        if (flashhh == true) {
+            for (let mySprite2 of [my_little_nemesis]) {
+                my_little_nemesis.setImage(img`
+                    ........................
+                    ........................
+                    ........................
+                    ........................
+                    ..........1111..........
+                    ........11222211........
+                    .......1622222261.......
+                    .......1222222221.......
+                    ......182222222281......
+                    ......182222222281......
+                    ......188822228881......
+                    ......168618816861......
+                    ......1e8e1221e8e1......
+                    .....111122222261.......
+                    ....18222886268111......
+                    ....1262686161e222e1....
+                    ....1616161111262621....
+                    .........11111116161....
+                    ..........111111........
+                    ...........111..........
+                    ........................
+                    ........................
+                    ........................
+                    ........................
+                    `)
+            }
+        } else {
+            for (let mySprite2 of [my_little_nemesis]) {
+                my_little_nemesis.setImage(img`
+                    ........................
+                    ........................
+                    ........................
+                    ........................
+                    ..........ffff..........
+                    ........ff1111ff........
+                    .......fb111111bf.......
+                    .......f11111111f.......
+                    ......fd11111111df......
+                    ......fd11111111df......
+                    ......fddd1111dddf......
+                    ......fbdbfddfbdbf......
+                    ......fcdcf11fcdcf......
+                    .....ffff111111bf.......
+                    ....fc111cdb1bdfff......
+                    ....f1b1bcbfbfc111cf....
+                    ....fbfbfbffff1b1b1f....
+                    .........fffffffbfbf....
+                    ..........fffff.........
+                    ...........fff..........
+                    ........................
+                    ........................
+                    ........................
+                    ........................
+                    `)
+            }
+        }
+    } else {
+        for (let mySprite2 of [my_little_nemesis]) {
+            my_little_nemesis.setImage(img`
+                ........................
+                ........................
+                ........................
+                ........................
+                ..........ffff..........
+                ........ff1111ff........
+                .......fb111111bf.......
+                .......f11111111f.......
+                ......fd11111111df......
+                ......fd11111111df......
+                ......fddd1111dddf......
+                ......fbdbfddfbdbf......
+                ......fcdcf11fcdcf......
+                .....ffff111111bf.......
+                ....fc111cdb1bdfff......
+                ....f1b1bcbfbfc111cf....
+                ....fbfbfbffff1b1b1f....
+                .........fffffffbfbf....
+                ..........fffff.........
+                ...........fff..........
+                ........................
+                ........................
+                ........................
+                ........................
+                `)
+        }
+    }
+})
 game.onUpdateInterval(100, function () {
     mySprite3.x += 1
 })
