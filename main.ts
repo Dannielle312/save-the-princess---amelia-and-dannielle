@@ -2,16 +2,21 @@ namespace SpriteKind {
     export const sharkieeee = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
-    mySprite.setPosition(15, 10)
-    tiles.setCurrentTilemap(tilemap`level8`)
+	
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
-    mySprite.setPosition(60, 100)
-    tiles.setCurrentTilemap(tilemap`level2`)
+    tiles.setCurrentTilemap(tilemap`level4`)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
+    mySprite.setPosition(6, 4)
+    mySprite.ay = 300
+    spawnLava()
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
     mySprite.setPosition(0, 81)
     tiles.setCurrentTilemap(tilemap`level9`)
+})
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    tiles.setCurrentTilemap(tilemap`level10`)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (jumpCount < 2) {
@@ -20,9 +25,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
-    mySprite.setPosition(9, 13)
-    tiles.setCurrentTilemap(tilemap`level5`)
-    mySprite.ay = 300
+	
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile42`, function (sprite, location) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
@@ -46,8 +49,32 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile42`, function (sprite, 
         `, SpriteKind.Player)
     controller.moveSprite(mySprite)
     scene.cameraFollowSprite(mySprite)
-    mySprite.setPosition(160, 100)
-    tiles.setCurrentTilemap(tilemap`level0`)
+    mySprite.setPosition(9, 16)
+    tiles.setCurrentTilemap(tilemap`level7`)
+    mySprite5 = sprites.create(img`
+        . . . . . . . e c 7 . . . . . . 
+        . . . . e e e c 7 7 e e . . . . 
+        . . c e e e e c 7 e 2 2 e e . . 
+        . c e e e e e c 6 e e 2 2 2 e . 
+        . c e e e 2 e c c 2 4 5 4 2 e . 
+        c e e e 2 2 2 2 2 2 4 5 5 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 4 4 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 4 2 e 
+        . e e e 2 2 2 2 2 2 2 2 2 4 e . 
+        . 2 e e 2 2 2 2 2 2 2 2 4 2 e . 
+        . . 2 e e 2 2 2 2 2 4 4 2 e . . 
+        . . . 2 2 e e 4 4 4 2 e e . . . 
+        . . . . . 2 2 e e e e . . . . . 
+        `, SpriteKind.Food)
+    mySprite5.setPosition(160, 280)
+    spawnEnemies()
+    sprites.destroyAllSpritesOfKind(SpriteKind.sharkieeee)
+})
+info.onScore(10, function () {
+    tiles.setCurrentTilemap(tilemap`level11`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`floorDark4`, function (sprite, location) {
     mySprite.setPosition(180, 100)
@@ -117,39 +144,12 @@ function spawnEnemies () {
         tiles.placeOnRandomTile(my_little_nemesis, assets.tile`floorDarkDiamond`)
         my_little_nemesis.vx = 50
         my_little_nemesis.vy = 50
+        my_little_nemesis.ay = 100
         my_little_nemesis.setBounceOnWall(true)
     }
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
-    tiles.setCurrentTilemap(tilemap`level4`)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
-    mySprite.setPosition(6, 4)
-    mySprite.ay = 300
-    spawnLava()
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, location) {
-    mySprite.setPosition(9, 16)
-    tiles.setCurrentTilemap(tilemap`level7`)
-    mySprite5 = sprites.create(img`
-        . . . . . . . e c 7 . . . . . . 
-        . . . . e e e c 7 7 e e . . . . 
-        . . c e e e e c 7 e 2 2 e e . . 
-        . c e e e e e c 6 e e 2 2 2 e . 
-        . c e e e 2 e c c 2 4 5 4 2 e . 
-        c e e e 2 2 2 2 2 2 4 5 5 2 2 e 
-        c e e 2 2 2 2 2 2 2 2 4 4 2 2 e 
-        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
-        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
-        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
-        c e e 2 2 2 2 2 2 2 2 2 2 4 2 e 
-        . e e e 2 2 2 2 2 2 2 2 2 4 e . 
-        . 2 e e 2 2 2 2 2 2 2 2 4 2 e . 
-        . . 2 e e 2 2 2 2 2 4 4 2 e . . 
-        . . . 2 2 e e 4 4 4 2 e e . . . 
-        . . . . . 2 2 e e e e . . . . . 
-        `, SpriteKind.Food)
-    mySprite5.setPosition(11, 102)
-    spawnEnemies()
+	
 })
 function spawnEnemies2 () {
     for (let index = 0; index < 15; index++) {
@@ -179,8 +179,27 @@ function spawnEnemies2 () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     sprites.destroy(mySprite5)
     POWERUP = true
-    pause(10000)
+    pause(15000)
     POWERUP = false
+    mySprite5 = sprites.create(img`
+        . . . . . . . e c 7 . . . . . . 
+        . . . . e e e c 7 7 e e . . . . 
+        . . c e e e e c 7 e 2 2 e e . . 
+        . c e e e e e c 6 e e 2 2 2 e . 
+        . c e e e 2 e c c 2 4 5 4 2 e . 
+        c e e e 2 2 2 2 2 2 4 5 5 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 4 4 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 2 2 e 
+        c e e 2 2 2 2 2 2 2 2 2 2 4 2 e 
+        . e e e 2 2 2 2 2 2 2 2 2 4 e . 
+        . 2 e e 2 2 2 2 2 2 2 2 4 2 e . 
+        . . 2 e e 2 2 2 2 2 4 4 2 e . . 
+        . . . 2 2 e e 4 4 4 2 e e . . . 
+        . . . . . 2 2 e e e e . . . . . 
+        `, SpriteKind.Food)
+    mySprite5.setPosition(160, 280)
 })
 function spawnLava () {
     mySprite3 = sprites.create(img`
@@ -210,6 +229,9 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile31`, function (sprite, 
     info.changeLifeBy(-1)
     mySprite.setPosition(15, 105)
 })
+scene.onOverlapTile(SpriteKind.Player, sprites.jewels.jewel5, function (sprite, location) {
+	
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.sharkieeee, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
     info.changeLifeBy(-1)
@@ -219,27 +241,30 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile30`, function (sprite, 
     tiles.setCurrentTilemap(tilemap`level0`)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, location) {
-    mySprite.setPosition(110, 100)
-    tiles.setCurrentTilemap(tilemap`level2`)
+    mySprite.setPosition(9, 13)
+    tiles.setCurrentTilemap(tilemap`level5`)
+    mySprite.ay = 300
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (POWERUP == true) {
-        my_little_nemesis.destroy(effects.disintegrate, 100)
+        otherSprite.destroy(effects.disintegrate, 100)
         info.changeScoreBy(1)
     } else {
         info.changeLifeBy(-1)
+        otherSprite.destroy()
+        mySprite.setPosition(60, 300)
+        info.changeScoreBy(1)
     }
 })
 let flashhh = false
 let POWERUP = false
 let sharkie_chompers: Sprite = null
-let mySprite5: Sprite = null
-let my_little_nemesis: Sprite = null
 let mySprite4: Sprite = null
+let mySprite5: Sprite = null
 let jumpCount = 0
+let my_little_nemesis: Sprite = null
 let mySprite3: Sprite = null
 let mySprite: Sprite = null
-tiles.setCurrentTilemap(tilemap`level2`)
 mySprite = sprites.create(img`
     . . . . f f f f . . . . . 
     . . f 5 f 5 f 5 f f . . . 
@@ -258,7 +283,8 @@ mySprite = sprites.create(img`
     . . . f f f f f f . . . . 
     . . . f f . . f f . . . . 
     `, SpriteKind.Player)
-mySprite.setPosition(17, 100)
+mySprite.setPosition(15, 15)
+tiles.setCurrentTilemap(tilemap`level8`)
 controller.moveSprite(mySprite, 100, 100)
 scene.cameraFollowSprite(mySprite)
 mySprite3 = sprites.create(img`
@@ -279,8 +305,8 @@ mySprite3 = sprites.create(img`
     5 4 2 2 4 5 4 2 4 4 2 5 2 4 4 2 
     2 2 5 4 2 2 5 2 4 2 2 4 4 5 2 5 
     `, SpriteKind.Projectile)
-mySprite3.setPosition(600, 120)
-let mySprite2 = sprites.create(img`
+mySprite3.setPosition(100000000000000000000, 120)
+my_little_nemesis = sprites.create(img`
     ........................
     ........................
     ........................
@@ -306,7 +332,7 @@ let mySprite2 = sprites.create(img`
     ........................
     ........................
     `, SpriteKind.Enemy)
-mySprite2.setPosition(100000, 120)
+my_little_nemesis.setPosition(1000000000000000, 1)
 game.onUpdate(function () {
     if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
         jumpCount = 0
@@ -316,8 +342,8 @@ game.onUpdateInterval(500, function () {
     if (POWERUP == true) {
         flashhh = !(flashhh)
         if (flashhh == true) {
-            for (let mySprite2 of [my_little_nemesis]) {
-                my_little_nemesis.setImage(img`
+            for (let my_little_nemesis2 of sprites.allOfKind(SpriteKind.Enemy)) {
+                my_little_nemesis2.setImage(img`
                     ........................
                     ........................
                     ........................
@@ -345,8 +371,8 @@ game.onUpdateInterval(500, function () {
                     `)
             }
         } else {
-            for (let mySprite2 of [my_little_nemesis]) {
-                my_little_nemesis.setImage(img`
+            for (let my_little_nemesis2 of sprites.allOfKind(SpriteKind.Enemy)) {
+                my_little_nemesis2.setImage(img`
                     ........................
                     ........................
                     ........................
@@ -375,8 +401,8 @@ game.onUpdateInterval(500, function () {
             }
         }
     } else {
-        for (let mySprite2 of [my_little_nemesis]) {
-            my_little_nemesis.setImage(img`
+        for (let my_little_nemesis2 of sprites.allOfKind(SpriteKind.Enemy)) {
+            my_little_nemesis2.setImage(img`
                 ........................
                 ........................
                 ........................
